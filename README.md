@@ -25,9 +25,12 @@ The JioLite installer will tell you if it cannot find Python.
 3. Click **Download ZIP**.
 4. Open your Mac's **Downloads** folder.
 5. Double-click the downloaded ZIP file to unpack it.
-6. Open the new `JioLite` folder.
-7. Right-click **Install JioLite.app** and choose **Open**.
-8. If macOS displays a warning, click **Open** again.
+6. Open the new `JioLite-main` folder.
+7. Right-click **Install JioLite.app** and choose **Open**. Do not double-click
+   it on the first launch.
+8. If macOS says it cannot verify that JioLite is free of malicious software,
+   click **Done**, then follow [If macOS blocks the installer](#if-macos-blocks-the-installer)
+   below.
 9. Wait while JioLite creates its private Python environment and installs its
    dependencies. This can take a few minutes on the first run.
 10. Your browser will open Violentmonkey's installation page. Click
@@ -75,6 +78,43 @@ If you used **Download ZIP**, download a fresh ZIP from GitHub and run its
 configuration.
 
 ## Troubleshooting
+
+### If macOS blocks the installer
+
+JioLite is currently ad-hoc signed rather than notarized with a paid Apple
+Developer ID. macOS therefore treats the app from a browser-downloaded ZIP as
+unverified. You have two options.
+
+#### Option 1: Approve it in System Settings
+
+1. Try to open **Install JioLite.app** once and dismiss the warning.
+2. Open **System Settings**.
+3. Select **Privacy & Security**.
+4. Scroll down to the **Security** section.
+5. Find the message about **Install JioLite.app** and click **Open Anyway**.
+6. Enter your Mac password or use Touch ID if requested.
+7. Click **Open** in the final confirmation.
+
+The **Open Anyway** button only appears for about an hour after an attempted
+launch. See Apple's guide to
+[safely opening Mac apps](https://support.apple.com/en-us/102445) for the
+official instructions.
+
+#### Option 2: Use one exact Terminal command
+
+If you used GitHub's **Download ZIP** button, open Terminal, paste this entire
+command, and press Return:
+
+```sh
+xattr -dr com.apple.quarantine "$HOME/Downloads/JioLite-main/Install JioLite.app" && open "$HOME/Downloads/JioLite-main/Install JioLite.app"
+```
+
+This removes the browser's quarantine marker only from the JioLite installer,
+then opens it. Review this public repository's source before running the
+command if you have any concerns.
+
+The `git clone` installation command above normally avoids this specific issue
+because Git does not add the browser-download quarantine marker.
 
 ### There is no green download arrow
 
